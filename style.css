@@ -1,0 +1,125 @@
+/* ===== 리셋 ===== */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #000000;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    cursor: default;
+    font-family: 'Outfit', sans-serif;
+}
+
+/* ===== 메인 캔버스 ===== */
+#main-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* ===== 하단 텍스트 — 담백한 그레이 모던 룩 ===== */
+.bottom-text {
+    position: fixed;
+    bottom: 3rem;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.quotes {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500; /* 그로테스크 특유의 각진 맛을 살리기 위해 살짝 더 두껍게 */
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 2px; /* 자간 대폭 축소 */
+    text-transform: uppercase;
+    display: inline-block; /* transform-글리치 효과를 먹이기 위해 필수 */
+}
+
+/* 하이파이/로우파이 디자이너풍 미니멀 네온 등장 클래스 */
+.neon-on {
+    position: relative;
+    color: #f2f2f2;
+    /* 게임스러운 유색 빛을 빼고 고급스러운 단색 화이트 글로우만 아주 우아하게 남김 */
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
+    animation: elegantNeonStart 1.5s ease-out forwards;
+    display: inline-block;
+}
+
+/* 우아하고 미니멀한 초소형/무채색 가로 지지직 에러 (고급스러운 아날로그 질감) */
+.neon-on::before,
+.neon-on::after {
+    content: attr(data-text); 
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: #ffffff;
+    background: transparent;
+    pointer-events: none;
+    overflow: hidden;
+    clip-path: inset(50% 0 50% 0); /* 평소에는 완전히 숨겨짐 */
+    opacity: 0;
+}
+
+.neon-on::before {
+    text-shadow: -2px 0px 0px rgba(255, 255, 255, 0.7);
+    animation: luxuriousAnalogStaticTop 3s infinite 1.5s;
+}
+
+.neon-on::after {
+    text-shadow: 2px 0px 0px rgba(255, 255, 255, 0.7);
+    animation: luxuriousAnalogStaticBot 3.5s infinite 1.6s;
+}
+
+/* 싸구려 해킹 느낌이 아닌, 옛 형광등/네온 튜브가 서늘하고 우아하게 깜빡이며 켜지는 점등 애니메이션 */
+@keyframes elegantNeonStart {
+    0% { color: rgba(255,255,255,0.2); text-shadow: none; opacity: 1; }
+    5% { color: #fff; text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); opacity: 0.9; }
+    8% { color: rgba(255,255,255,0.3); text-shadow: none; opacity: 1; }
+    12% { color: #fff; text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); opacity: 0.8; }
+    18% { color: rgba(100,100,100,1); text-shadow: 0 0 2px rgba(255,255,255,0.3); transform: translateX(-1px); }
+    22% { color: #ffffff; text-shadow: 0 0 12px rgba(255, 255, 255, 1); opacity: 0.9; transform: translateX(0); }
+    28% { color: rgba(200,200,200,1); text-shadow: none; filter: blur(0.5px); }
+    35% { color: #fff; text-shadow: 0 0 6px rgba(255, 255, 255, 0.6); opacity: 0.9; filter: blur(0); }
+    50% { color: #d0d0d0; text-shadow: 0 0 4px rgba(255,255,255,0.4); }
+    100% { color: #f2f2f2; text-shadow: 0 0 6px rgba(255, 255, 255, 0.7); opacity: 1; }
+}
+
+/* 절제된 미니멀 프레임 드랍 / 확실히 눈에 띄게 수정한 가로 텍스처 노이즈 */
+@keyframes luxuriousAnalogStaticTop {
+    0%, 93% { opacity: 0; transform: translateX(0); clip-path: inset(50% 0 50% 0); }
+    94% { opacity: 0.9; transform: translateX(-4px); clip-path: inset(20% 0 70% 0); }
+    95% { opacity: 0.6; transform: translateX(2px); clip-path: inset(60% 0 30% 0); }
+    96% { opacity: 0.9; transform: translateX(-3px); clip-path: inset(35% 0 55% 0); }
+    97%, 100% { opacity: 0; transform: translateX(0); clip-path: inset(50% 0 50% 0); }
+}
+
+@keyframes luxuriousAnalogStaticBot {
+    0%, 94% { opacity: 0; transform: translateX(0); clip-path: inset(50% 0 50% 0); }
+    95% { opacity: 0.8; transform: translateX(5px); clip-path: inset(40% 0 45% 0); }
+    96% { opacity: 0.5; transform: translateX(-3px); clip-path: inset(80% 0 12% 0); }
+    97% { opacity: 0.9; transform: translateX(3px); clip-path: inset(25% 0 65% 0); }
+    98%, 100% { opacity: 0; transform: translateX(0); clip-path: inset(50% 0 50% 0); }
+}
+
+/* ===== 모바일 ===== */
+@media (max-width: 768px) {
+    .quotes {
+        font-size: 0.65rem;
+        letter-spacing: 3px;
+    }
+
+    .bottom-text {
+        bottom: 2rem;
+    }
+}
