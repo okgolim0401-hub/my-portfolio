@@ -82,7 +82,9 @@ class Particle {
         angle += (this.randomMod - 0.5) * 4.0; 
         
         // 4. 모니터 바깥을 시원하게 뚫고 나가는 파워풀 블래스트 (유지)
-        let force = this.randomMod * 180 + 80; 
+        // 화면 해상도에 맞춰서 폭발력을 스케일링 (모바일에서 우주 끝까지 날아가 돌아오지 못하고 조립이 꼬이는 현상 방지)
+        let scaleFactor = Math.max(0.3, window.innerWidth / 1920);
+        let force = (this.randomMod * 180 + 80) * scaleFactor;
         
         this.vx = Math.cos(angle) * force;
         this.vy = Math.sin(angle) * force;
@@ -144,8 +146,8 @@ class Particle {
                         if (Math.abs(oDy) < 20) this.routingAxis = 'x';
                     }
                     
-                    // 목표점 4픽셀 이내로 근접하면 모든 축 이동을 통제하고 제자리에 박아버림
-                    if (Math.abs(oDx) < 4 && Math.abs(oDy) < 4) {
+                    // 목표점 근방 도달 판별 (모바일 오버슈팅으로 인해 좌표를 지나치지 않도록 히트박스를 살짝 여유있게 잡음)
+                    if (Math.abs(oDx) < 8 && Math.abs(oDy) < 8) {
                         this.x = targetX;
                         this.y = targetY;
                         this.vx = 0; // 흔들림, 잔상 절대 방지
@@ -176,7 +178,7 @@ class Particle {
                 let dy = this.y - mouse.y;
                 let distance = Math.sqrt(dx * dx + dy * dy);
                 
-                let maxDist = 450; 
+                let maxDist = window.innerWidth < 768 ? 150 : 450; // 모바일 터치 시에는 밀어내는 범위를 화면에 맞게 축소
                 
                 if (distance < maxDist && distance > 0) {
                     // 입자들을 한 곳에 몰아넣어 밝은 경계선이 생기는 문제를 없애도록
